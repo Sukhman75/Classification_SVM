@@ -57,8 +57,9 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 print(confusion_matrix(y_test, prediction),'\n', classification_report(y_test, prediction))
 
-""" I got UNDESIRED results from the above. 
-    As I got 0.00 predicted samples for '0' Targert. <<<< REFER TO Screenshot Capture4 in project_screenshot folder"""
+""" I got UNDESIRED results for classification. 
+    As I got 0.00 predicted samples for '0' Targert as the classification result.
+     <<<< REFER TO Screenshot Capture3 in project_screenshot folder"""
 
 #To overcome this issue I can try with the different values for gamma or C
 
@@ -85,3 +86,6 @@ print(Grid.best_params_)
 prediction2 = SVC(C = 10, gamma =0.0001).fit(X_train, y_train).predict(X_test)
 
 print(confusion_matrix(y_test, prediction2),'\n', classification_report(y_test, prediction2))
+
+# AS the final result I got a CLASSIFICATION of 0.95 to 0.97 in both 0 and 1 <<<REFER to Screenshot Capture5>>>
+print(data_cancer['target_names'])
