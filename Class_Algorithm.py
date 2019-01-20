@@ -48,4 +48,40 @@ SVC().fit(X_train, y_train)
 prediction = SVC().fit(X_train, y_train).predict(X_test)
 
 
+#Now check the classification report and the confusion metrix
+#To do the above we first have to import the classification_report & confision_matrix from "metrics" class of scikit-learn
 
+from sklearn.metrics import confusion_matrix, classification_report  
+
+#print out the final results
+
+print(confusion_matrix(y_test, prediction),'\n', classification_report(y_test, prediction))
+
+""" I got UNDESIRED results from the above. 
+    As I got 0.00 predicted samples for '0' Targert. <<<< REFER TO Screenshot Capture4 in project_screenshot folder"""
+
+#To overcome this issue I can try with the different values for gamma or C
+
+# WE CAN USE GRID SEARCH from Scikit-learn.
+"""AS LARGER 'C' VALUE CAN RESULT IN LOW BIAS AND HIGH VARIANCE
+HIGH GAMMA CAN RESULT IN VERY LOW VARIANCE"""
+from sklearn.model_selection import GridSearchCV 
+
+#Test out different manual values for C and Gamma
+# And check for the best pair of gamma and C
+param_grid = {'C' : [0.1, 1, 10, 100, 1000], 'gamma' : [1, 0.1, 0.01, 0.001, 0.0001]}
+Grid = GridSearchCV(SVC(), param_grid, verbose = 4 )	
+
+#Verbose is the text output of the description of the process, so assign it some value otherwise it will not display what the process is doing
+#In the above SVC() is the estimator, param_grid are the mannual values for gamma and C
+
+Grid.fit(X_train, y_train)
+
+print(Grid.best_params_)
+# As a result I got the best parameters as C=10 and gamma = 0.0001
+
+
+# Make a new prediction using the custom(BEST FOUND) values for C and gamma
+prediction2 = SVC(C = 10, gamma =0.0001).fit(X_train, y_train).predict(X_test)
+
+print(confusion_matrix(y_test, prediction2),'\n', classification_report(y_test, prediction2))
