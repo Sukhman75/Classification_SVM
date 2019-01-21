@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 # To use Breast cancer dataset we have to import it from Scikit learn
 from sklearn.datasets import load_breast_cancer
 
@@ -84,8 +83,33 @@ print(Grid.best_params_)
 
 # Make a new prediction using the custom(BEST FOUND) values for C and gamma
 prediction2 = SVC(C = 10, gamma =0.0001).fit(X_train, y_train).predict(X_test)
+c_m = confusion_matrix(y_test, prediction2)
+c_r = classification_report(y_test, prediction2)
 
-print(confusion_matrix(y_test, prediction2),'\n', classification_report(y_test, prediction2))
+print(c_m,'\n', c_r)
 
-# AS the final result I got a CLASSIFICATION of 0.95 to 0.97 in both 0 and 1 <<<REFER to Screenshot Capture5>>>
-print(data_cancer['target_names'])
+# AS the final result I got a CLASSIFICATION of 0.95 to 0.97 in both 0 and 1 <<<REFER to Screenshot Capture5 in project_screenshots folder>>>
+
+  #Now Lets add some graphs or plot for the Confusion_matrix 
+
+import matplotlib.pyplot as plt 
+#%matplotlib inline
+    #<<%Matplotlib will not work in normal Sublime environment
+plt.imshow(c_m, interpolation='nearest', cmap=plt.cm.Wistia)
+classNames = ['Negative','Positive']
+plt.title('SVM Confusion Matrix - Test Data')
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+tick_marks = np.arange(len(classNames))
+plt.xticks(tick_marks, classNames, rotation=45)
+plt.yticks(tick_marks, classNames)
+
+s = [['TN','FP'], ['FN', 'TP']]
+
+for i in range(2):
+	for j in range(2):
+		plt.text(i,j, str(s[i][j])+'='+str(c_m[i][j]))
+plt.show()		
+                    #<<<TO CHECK THE RESULTS OF PLOT SEE Capture6 in project_screenshots folder>>>
+
+####Run the Code in jupyter notebook 
